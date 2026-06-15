@@ -1,0 +1,7 @@
+name = "yinchuangsum-website"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-06-15"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "32b3db5e6dc04096ad7e70673a4b93c7"
