@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import UsesCard from "../components/UsesCard.astro";
+
+const editorIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17h16M4 12h10M4 7h16"/></svg>';
+const stackIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>';
+const infraIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M3 12h18"/></svg>';
+const hardwareIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>';
+---
+
+<BaseLayout title="Uses — Yin Chuang Sum">
+  <section class="section hero">
+    <div class="container hero-center">
+      <p class="eyebrow">TOOLS & SETUP</p>
+      <h1>What I use to build.</h1>
+      <p class="lead">
+        The hardware, software, and services that power my daily work. Updated
+        whenever something changes.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid-2">
+        <UsesCard
+          icon={editorIcon}
+          title="Editor & Terminal"
+          tools={[
+            { name: "Neovim", description: "LazyVim distro" },
+            { name: "Tmux", description: "Session management" },
+            { name: "zsh", description: "Shell + zinit" },
+            { name: "fzf", description: "Fuzzy finder" },
+            { name: "ripgrep", description: "Code search" },
+            { name: "lazygit", description: "Git TUI" },
+          ]}
+        />
+        <UsesCard
+          icon={stackIcon}
+          title="Dev Stack"
+          tools={[
+            { name: "Vue 3", description: "Frontend framework" },
+            { name: "TypeScript", description: "Type safety" },
+            { name: "Kotlin", description: "Backend language" },
+            { name: "Quarkus", description: "Java/Kotlin framework" },
+            { name: "Ktor", description: "Microservices" },
+            { name: "PostgreSQL", description: "Primary database" },
+          ]}
+        />
+        <UsesCard
+          icon={infraIcon}
+          title="Infrastructure & Homelab"
+          tools={[
+            { name: "Synology NAS", description: "Storage & backup" },
+            { name: "Docker", description: "Container runtime" },
+            { name: "Portainer", description: "Container mgmt" },
+            { name: "Nginx", description: "Reverse proxy" },
+            { name: "Home Assistant", description: "Home automation" },
+            { name: "Traefik", description: "Edge router" },
+          ]}
+        />
+        <UsesCard
+          icon={hardwareIcon}
+          title="Hardware"
+          tools={[
+            { name: "Custom Workstation", description: "AMD Ryzen, 64GB RAM" },
+            { name: '2x 27" 4K Monitors', description: "Dell U2723QE" },
+            { name: "ErgoDox EZ", description: "Split mechanical" },
+            { name: "Logitech MX Master 3S", description: "Wireless mouse" },
+            { name: "Standing Desk", description: "Fully Jarvis" },
+            { name: "Sony WH-1000XM5", description: "Noise cancelling" },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

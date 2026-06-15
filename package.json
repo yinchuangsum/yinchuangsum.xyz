@@ -1,0 +1,22 @@
+{
+  "name": "yinchuangsum-website",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Personal website of Yin Chuang Sum",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.7.0",
+    "astro": "^6.4.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3"
+  }
+}

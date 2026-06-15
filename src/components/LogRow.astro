@@ -1,0 +1,39 @@
+---
+export interface Props {
+  date: string;
+  title: string;
+  description: string;
+  tags: string[];
+  readTime: string;
+  href?: string;
+}
+
+const { date, title, description, tags, readTime, href } = Astro.props;
+---
+
+<article class="log-row">
+  <span class="meta">{date}</span>
+  <div>
+    {href ? (
+      <a href={href}>
+        <h3>{title}</h3>
+        <p style="margin: 4px 0 0; color: var(--muted); font-size: 14px;">
+          {description}
+        </p>
+      </a>
+    ) : (
+      <>
+        <h3>{title}</h3>
+        <p style="margin: 4px 0 0; color: var(--muted); font-size: 14px;">
+          {description}
+        </p>
+      </>
+    )}
+    <div class="tag-cluster">
+      {tags.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+  </div>
+  <span class="pull meta">{readTime}</span>
+</article>

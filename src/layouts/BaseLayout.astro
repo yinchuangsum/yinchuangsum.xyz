@@ -1,0 +1,54 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const navLinks = [
+  { href: "/now", label: "Now" },
+  { href: "/blog", label: "Blog" },
+  { href: "/speaking", label: "Speaking" },
+  { href: "/uses", label: "Uses" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description || "Personal website of Yin Chuang Sum — CTO & Founder"} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Scope+One&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+    <header class="topnav">
+      <div class="container topnav-inner">
+        <a href="/" class="logo">Yin Chuang Sum</a>
+        <nav>
+          {navLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="content">
+      <slot />
+    </main>
+
+    <footer class="pagefoot">
+      <div class="container row-between">
+        <span>&copy; 2026 &middot; Yin Chuang Sum</span>
+        <span class="meta">Built with care &middot; hello@yinchuangsum.xyz</span>
+      </div>
+    </footer>
+  </body>
+</html>

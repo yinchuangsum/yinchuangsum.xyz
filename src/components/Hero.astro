@@ -1,0 +1,39 @@
+---
+export interface Props {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  variant?: "center" | "split";
+  class?: string;
+}
+
+const { eyebrow, heading, lead, variant = "center", class: className = "" } = Astro.props;
+const heroClass = variant === "split" ? "section hero-split" : "section hero hero-center";
+---
+
+<section class={`${heroClass} ${className}`.trim()}>
+  {variant === "center" ? (
+    <div class="container hero-center">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{heading}</h1>
+      <p class="lead">{lead}</p>
+      <div class="hero-cta">
+        <slot name="cta" />
+      </div>
+    </div>
+  ) : (
+    <div class="container hero-split">
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{heading}</h1>
+        <p class="lead" style="margin-top: 20px;">{lead}</p>
+        <div class="hero-cta" style="margin-top: 28px;">
+          <slot name="cta" />
+        </div>
+      </div>
+      <div class="ph-img portrait" aria-label="Profile photo placeholder">
+        [ Profile photo &middot; 3:4 ]
+      </div>
+    </div>
+  )}
+</section>

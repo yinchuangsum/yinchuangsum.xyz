@@ -1,0 +1,40 @@
+---
+export interface Props {
+  date: string;
+  title: string;
+  location: string;
+  tags: Array<{ label: string; variant?: "pill" | "tag" }>;
+  primaryAction?: { label: string; href: string };
+  secondaryAction?: { label: string; href: string; variant?: "secondary" | "ghost" };
+}
+
+const { date, title, location, tags, primaryAction, secondaryAction } = Astro.props;
+---
+
+<div class="event-card">
+  <div class="event-date">{date}</div>
+  <h3>{title}</h3>
+  <p class="event-location">{location}</p>
+  <div class="event-actions">
+    {primaryAction && (
+      <a
+        class={`btn ${secondaryAction ? "btn-primary" : "btn-secondary btn-arrow"}`}
+        href={primaryAction.href}
+      >
+        {primaryAction.label}
+      </a>
+    )}
+    {secondaryAction && (
+      <a class={`btn btn-${secondaryAction.variant || "ghost"}`} href={secondaryAction.href}>
+        {secondaryAction.label}
+      </a>
+    )}
+    {tags.map((tag) =>
+      tag.variant === "pill" ? (
+        <span class="pill">{tag.label}</span>
+      ) : (
+        <span class="tag">{tag.label}</span>
+      )
+    )}
+  </div>
+</div>

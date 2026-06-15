@@ -1,0 +1,27 @@
+---
+export interface Tool {
+  name: string;
+  description: string;
+}
+
+export interface Props {
+  icon: string;
+  title: string;
+  tools: Tool[];
+}
+
+const { icon, title, tools } = Astro.props;
+---
+
+<div class="uses-card">
+  <div class="category-icon" set:html={icon}></div>
+  <h3>{title}</h3>
+  <ul>
+    {tools.map((tool) => (
+      <li>
+        <span class="tool-name">{tool.name}</span>
+        <span class="tool-desc">{tool.description}</span>
+      </li>
+    ))}
+  </ul>
+</div>

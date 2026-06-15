@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.(md|mdx)$/, "") },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} — Yin Chuang Sum`}>
+  <section class="section">
+    <div class="container" style="max-width: 720px;">
+      <p class="meta" style="margin-bottom: var(--gap-md);">
+        {post.data.date.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        })}
+        &nbsp;&middot;&nbsp;{post.data.readTime}
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="lead" style="margin-top: var(--gap-md); margin-bottom: var(--gap-lg);">
+        {post.data.description}
+      </p>
+      <div class="tag-cluster" style="margin-bottom: var(--gap-xl);">
+        {post.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+      <hr class="rule" />
+      <article style="margin-top: var(--gap-xl);">
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>

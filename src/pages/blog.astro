@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LogRow from "../components/LogRow.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Blog — Yin Chuang Sum">
+  <section class="section hero">
+    <div class="container hero-center">
+      <p class="eyebrow">TECHNICAL BLOG</p>
+      <h1>Writing about what I build.</h1>
+      <p class="lead">
+        Deep dives on AI architecture, backend engineering, Vue ecosystems, and
+        the tools that power modern SaaS.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="search-bar">
+        <input class="input" type="text" placeholder="Search articles, topics, tags..." />
+        <button class="btn btn-secondary">Search</button>
+      </div>
+
+      <div class="row-between" style="margin-bottom: var(--gap-lg);">
+        <h2>Latest articles</h2>
+        <div class="tag-cluster">
+          <span class="pill">AI</span>
+          <span class="pill">Architecture</span>
+          <span class="pill">Vue</span>
+          <span class="pill">Kotlin</span>
+          <span class="pill">Infra</span>
+        </div>
+      </div>
+
+      <div>
+        {posts.map((post) => (
+          <LogRow
+            date={post.data.date.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+            title={post.data.title}
+            description={post.data.description}
+            tags={post.data.tags}
+            readTime={post.data.readTime}
+            href={`/blog/${post.id.replace(/\.(md|mdx)$/, "")}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sub-block">
+        <div style="max-width: 48ch; margin-bottom: var(--gap-lg);">
+          <h2>Get new posts in your inbox.</h2>
+          <p class="lead">
+            No spam. Unsubscribe anytime. RSS available for the feed-reader
+            crowd.
+          </p>
+        </div>
+        <div class="row">
+          <input class="input" type="email" placeholder="you@example.com" />
+          <button class="btn btn-primary">Subscribe</button>
+          <a class="rss-link" href="/rss.xml">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v2.505c5.256 0 9.509 4.253 9.509 9.509h2.505c0-6.625-5.388-12.014-12.014-12.014zm0-5.238v2.505c8.091 0 14.657 6.566 14.657 14.657h2.505c0-9.504-7.708-17.212-17.212-17.212z"/></svg>
+            RSS Feed
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

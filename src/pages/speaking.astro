@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+---
+
+<BaseLayout title="Speaking — Yin Chuang Sum">
+  <section class="section hero">
+    <div class="container hero-center">
+      <p class="eyebrow">SPEAKING & EVENTS</p>
+      <h1>Sharing what I learn.</h1>
+      <p class="lead">
+        Talks on AI architecture, Vue ecosystems, backend engineering, and the
+        human side of leading technical teams.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="margin-bottom: var(--gap-xl);">
+        <p class="eyebrow">UPCOMING</p>
+        <h2>Where to find me next.</h2>
+      </div>
+      <div class="grid-2">
+        <EventCard
+          date="June 15, 2026"
+          title="Scaling Vue 3 in Enterprise"
+          location="Vue.js Amsterdam &middot; Amsterdam, NL"
+          tags={[
+            { label: "Frontend", variant: "tag" },
+            { label: "Vue", variant: "tag" },
+          ]}
+          primaryAction={{ label: "Register", href: "#" }}
+        />
+        <EventCard
+          date="August 22, 2026"
+          title="Multi-Agent Orchestration with LangGraph"
+          location="AI Engineer Summit &middot; San Francisco, CA (Virtual)"
+          tags={[
+            { label: "Virtual", variant: "pill" },
+            { label: "AI", variant: "tag" },
+            { label: "Architecture", variant: "tag" },
+          ]}
+          primaryAction={{ label: "RSVP", href: "#" }}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="margin-bottom: var(--gap-xl);">
+        <p class="eyebrow">ARCHIVE</p>
+        <h2>Past talks.</h2>
+      </div>
+      <div class="grid-2">
+        <EventCard
+          date="May 2025"
+          title="From Java to Kotlin: A CTO's Migration Guide"
+          location="KotlinConf &middot; Copenhagen, DK"
+          tags={[]}
+          primaryAction={{ label: "Watch Video", href: "#" }}
+          secondaryAction={{ label: "View Slides", href: "#", variant: "ghost" }}
+        />
+        <EventCard
+          date="November 2025"
+          title="Building Autonomous Frontend Agents"
+          location="JSConf Asia &middot; Singapore"
+          tags={[]}
+          primaryAction={{ label: "Watch Video", href: "#" }}
+          secondaryAction={{ label: "Read Post", href: "#", variant: "ghost" }}
+        />
+        <EventCard
+          date="September 2025"
+          title="Homelab to Production: My Docker Setup"
+          location="Local Tech Meetup &middot; Berlin, DE"
+          tags={[]}
+          primaryAction={{ label: "View Slides", href: "#" }}
+          secondaryAction={{ label: "Read Post", href: "#", variant: "ghost" }}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
