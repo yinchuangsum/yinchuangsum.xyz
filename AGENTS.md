@@ -38,8 +38,7 @@ All tokens are defined as CSS custom properties in `src/styles/global.css`.
 
 | Route | Description | Reference |
 |-------|-------------|-----------|
-| `/` | Launcher/overview | `reference/index.html` |
-| `/now` | Now page — focus areas | `reference/home.html` |
+| `/` | Now page — focus areas | `reference/home.html` |
 | `/blog` | Blog listing + subscribe | `reference/blog.html` |
 | `/blog/[slug]` | Individual blog post | Content collection |
 | `/speaking` | Speaking — upcoming + past | `reference/speaking.html` |
