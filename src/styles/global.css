@@ -452,6 +452,15 @@ h3 {
   aspect-ratio: 16 / 9;
 }
 
+.profile-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--fg-soft);
+}
+
 .now-card {
   border-left: 2px solid var(--muted);
   padding-left: var(--gap-lg);

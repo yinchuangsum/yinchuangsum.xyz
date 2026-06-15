@@ -5,9 +5,11 @@ export interface Props {
   lead: string;
   variant?: "center" | "split";
   class?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
-const { eyebrow, heading, lead, variant = "center", class: className = "" } = Astro.props;
+const { eyebrow, heading, lead, variant = "center", class: className = "", imageSrc, imageAlt = "Profile photo" } = Astro.props;
 const heroClass = variant === "split" ? "section" : "section hero";
 ---
 
@@ -31,9 +33,7 @@ const heroClass = variant === "split" ? "section" : "section hero";
           <slot name="cta" />
         </div>
       </div>
-      <div class="ph-img portrait" aria-label="Profile photo placeholder">
-        [ Profile photo &middot; 3:4 ]
-      </div>
+      <img class="profile-img" src={imageSrc} alt={imageAlt} />
     </div>
   )}
 </section>
