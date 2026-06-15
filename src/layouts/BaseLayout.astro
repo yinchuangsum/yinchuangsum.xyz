@@ -4,6 +4,8 @@ export interface Props {
   description?: string;
 }
 
+import "../styles/global.css";
+
 const { title, description } = Astro.props;
 const navLinks = [
   { href: "/now", label: "Now" },
@@ -26,7 +28,7 @@ const navLinks = [
       href="https://fonts.googleapis.com/css2?family=Scope+One&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/styles/global.css" />
+
   </head>
   <body>
     <header class="topnav">
