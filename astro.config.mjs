@@ -3,6 +3,6 @@ import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
   output: "static",
-  adapter: cloudflare(),
+  adapter: cloudflare({ prerenderEnvironment: "node" }),
   site: "https://yinchuangsum.xyz",
 });
