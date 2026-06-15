@@ -8,7 +8,7 @@ export interface Props {
 }
 
 const { eyebrow, heading, lead, variant = "center", class: className = "" } = Astro.props;
-const heroClass = variant === "split" ? "section hero-split" : "section hero hero-center";
+const heroClass = variant === "split" ? "section" : "section hero";
 ---
 
 <section class={`${heroClass} ${className}`.trim()}>
@@ -26,8 +26,8 @@ const heroClass = variant === "split" ? "section hero-split" : "section hero her
       <div>
         <p class="eyebrow">{eyebrow}</p>
         <h1>{heading}</h1>
-        <p class="lead" style="margin-top: 20px;">{lead}</p>
-        <div class="hero-cta" style="margin-top: 28px;">
+        <p class="lead">{lead}</p>
+        <div class="hero-cta">
           <slot name="cta" />
         </div>
       </div>

@@ -7,6 +7,7 @@ export interface Props {
 import "../styles/global.css";
 
 const { title, description } = Astro.props;
+const path = Astro.url.pathname;
 const navLinks = [
   { href: "/", label: "Now" },
   { href: "/blog", label: "Blog" },
@@ -22,6 +23,7 @@ const navLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description || "Personal website of Yin Chuang Sum — CTO & Founder"} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,12 +33,17 @@ const navLinks = [
 
   </head>
   <body>
+    <a href="#content" class="skip-link">Skip to content</a>
     <header class="topnav">
       <div class="container topnav-inner">
         <a href="/" class="logo">Yin Chuang Sum</a>
         <nav>
           {navLinks.map((link) => (
-            <a href={link.href}>{link.label}</a>
+            <a
+              href={link.href}
+              aria-current={path === link.href ? "page" : undefined}
+              class:list={{ active: path === link.href }}
+            >{link.label}</a>
           ))}
         </nav>
       </div>

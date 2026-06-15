@@ -199,6 +199,23 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--gap-md);
+  z-index: 100;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: var(--surface);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: var(--gap-sm);
+}
+
 .topnav {
   position: sticky;
   top: 0;
@@ -227,7 +244,8 @@ h3 {
   font-size: 14px;
   color: var(--muted);
 }
-.topnav nav a:hover {
+.topnav nav a:hover,
+.topnav nav a.active {
   color: var(--fg);
 }
 .pagefoot {
@@ -375,6 +393,12 @@ h3 {
   gap: var(--gap-2xl);
   align-items: center;
 }
+.hero-split .lead {
+  margin-top: var(--gap-md);
+}
+.hero-split .hero-cta {
+  margin-top: 28px;
+}
 @media (max-width: 920px) {
   .hero-split {
     grid-template-columns: 1fr;
@@ -407,8 +431,7 @@ h3 {
 }
 
 .ph-img {
-  background: linear-gradient(135deg, var(--accent-soft), var(--fg-soft)),
-    var(--surface);
+  background: var(--fg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   aspect-ratio: 16 / 10;
@@ -581,10 +604,14 @@ h3 {
   font: inherit;
   font-size: 15px;
 }
-.input:focus,
-.textarea:focus {
+.input:focus-visible,
+.textarea:focus-visible {
   outline: 2px solid var(--accent-soft);
   border-color: var(--accent);
+}
+.input:focus:not(:focus-visible),
+.textarea:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .sub-block {
