@@ -546,7 +546,8 @@ h3 {
 
 .social-row {
   display: flex;
-  gap: var(--gap-md);
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
 }
 .social-row a {
   display: inline-flex;
