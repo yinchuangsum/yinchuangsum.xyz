@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+---
+
+<BaseLayout title="Projects — Yin Chuang Sum">
+  <section class="section hero">
+    <div class="container hero-center">
+      <p class="eyebrow">PROJECTS</p>
+      <h1>Things I've built.</h1>
+      <p class="lead">
+        A mix of commercial products, open source tools, and side experiments.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="margin-bottom: var(--gap-xl);">
+        <p class="eyebrow">COMMERCIAL</p>
+        <h2>Closed source.</h2>
+      </div>
+      <div class="grid-2">
+        <ProjectCard
+          title="Pigeonbook"
+          description="AI Accountant for small businesses."
+          badge="Commercial"
+        />
+        <ProjectCard
+          title="EV Charging Platform"
+          description="OCPP & OCPI-compliant charging management with integrated pre-auth payments. Helps commercial building owners monetize their EV charging infrastructure."
+          badge="NDA"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="margin-bottom: var(--gap-xl);">
+        <p class="eyebrow">OPEN SOURCE</p>
+        <h2>Built in public.</h2>
+      </div>
+      <div class="grid-2">
+        <ProjectCard
+          title="3D Tour Style Catalogue"
+          description="An interactive 3D catalogue for virtual tours and product browsing. Built with WebGL for immersive, real-time style exploration."
+          badge="Open Source"
+        />
+        <ProjectCard
+          title="Lazyman TUI"
+          description="A terminal-native HTTP client blending lazygit's TUI patterns with Postman's API workflow. Fully local — requests stored as plain files in git. Active development."
+          badge="Open Source"
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

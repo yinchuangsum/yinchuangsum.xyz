@@ -1,0 +1,48 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  badge?: string;
+  href?: string;
+}
+
+const { title, description, badge, href } = Astro.props;
+---
+
+<div class="project-card">
+  {badge && <span class="pill">{badge}</span>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {href && <a class="btn btn-ghost btn-arrow" href={href}>Learn more</a>}
+</div>
+
+<style>
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+  .project-card:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .project-card .pill {
+    align-self: flex-start;
+  }
+  .project-card h3 {
+    font-size: 20px;
+  }
+  .project-card p {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+  .project-card .btn {
+    align-self: flex-start;
+    margin-top: var(--gap-xs);
+  }
+</style>
