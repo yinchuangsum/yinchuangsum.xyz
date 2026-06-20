@@ -413,6 +413,12 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.tag.active {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .rule {
@@ -600,56 +606,44 @@ h3 {
   font-size: 11px;
 }
 
-.uses-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
+.uses-section {
+  max-width: 56ch;
 }
-.uses-card h3 {
-  font-size: 18px;
+.uses-section h2 {
   margin-bottom: var(--gap-md);
-  padding-bottom: var(--gap-sm);
-  border-bottom: 1px solid var(--border);
 }
-.uses-card ul {
+.uses-section > .lead {
+  margin-bottom: var(--gap-lg);
+}
+.uses-list {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-.uses-card li {
-  padding: 8px 0;
-  font-size: 14px;
-  color: var(--fg);
-  border-bottom: 1px solid var(--border);
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  gap: var(--gap-xs);
 }
-.uses-card li:last-child {
-  border-bottom: 0;
+.uses-list li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fg);
 }
-.uses-card li .tool-name {
-  font-weight: 500;
+.uses-list li strong {
+  font-weight: 600;
 }
-.uses-card li .tool-desc {
+.uses-ref {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
 }
-.uses-card .category-icon {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--muted);
-  margin-bottom: var(--gap-md);
+.uses-ref:hover {
+  text-decoration: underline;
 }
-.uses-card .category-icon svg {
-  width: 18px;
-  height: 18px;
+.uses-principles li {
+  color: var(--muted);
 }
 
 .search-bar {

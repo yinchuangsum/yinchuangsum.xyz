@@ -56,35 +56,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     const tags = document.querySelectorAll("#blog-tags .tag");
     const postsContainer = document.getElementById("blog-posts");
 
-    function filterPosts() {
-      const query = searchInput.value.trim().toLowerCase();
-      const activeTag = document.querySelector("#blog-tags .tag.active");
-      const tag = activeTag?.getAttribute("data-tag") || "";
-
-      if (query || tag) {
-        postsContainer.innerHTML = `<p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">No posts match your search.</p>`;
-      } else {
-        postsContainer.innerHTML = `<p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">No posts yet.</p>`;
-      }
+    if (searchInput instanceof HTMLInputElement && postsContainer) {
+      searchInput.addEventListener("input", () => updateResults(searchInput, postsContainer));
+      searchBtn?.addEventListener("click", () => updateResults(searchInput, postsContainer));
     }
-
-    searchInput.addEventListener("input", filterPosts);
-    searchBtn.addEventListener("click", filterPosts);
 
     tags.forEach((tag) => {
       tag.addEventListener("click", () => {
         const wasActive = tag.classList.contains("active");
         tags.forEach((t) => t.classList.remove("active"));
-        if (!wasActive) {
-          tag.classList.add("active");
-          tag.style.color = "var(--accent)";
-          tag.style.borderColor = "var(--accent)";
-        } else {
-          tag.style.color = "";
-          tag.style.borderColor = "";
+        if (!wasActive) tag.classList.add("active");
+        if (searchInput instanceof HTMLInputElement && postsContainer) {
+          updateResults(searchInput, postsContainer);
         }
-        filterPosts();
       });
     });
+
+    function updateResults(input: HTMLInputElement, container: HTMLElement) {
+      const query = input.value.trim().toLowerCase();
+      const activeTag = document.querySelector("#blog-tags .tag.active");
+      const tag = activeTag?.getAttribute("data-tag") || "";
+      container.innerHTML = `<p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">` + (query || tag ? "No posts match your search." : "No posts yet.") + `</p>`;
+    }
   </script>
 </BaseLayout>
