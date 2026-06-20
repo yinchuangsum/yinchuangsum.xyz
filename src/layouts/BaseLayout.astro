@@ -38,7 +38,12 @@ const navLinks = [
     <header class="topnav">
       <div class="container topnav-inner">
         <a href="/" class="logo">Yin Chuang Sum</a>
-        <nav>
+        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="mobile-nav">
           {navLinks.map((link) => (
             <a
               href={link.href}
@@ -49,6 +54,32 @@ const navLinks = [
         </nav>
       </div>
     </header>
+    <script>
+      const button = document.querySelector(".hamburger");
+      const nav = document.querySelector("#mobile-nav");
+      if (button && nav) {
+        button.addEventListener("click", () => {
+          const open = button.getAttribute("aria-expanded") === "true";
+          button.setAttribute("aria-expanded", String(!open));
+          nav.classList.toggle("open");
+          document.body.style.overflow = open ? "" : "hidden";
+        });
+        nav.addEventListener("click", (e) => {
+          if (e.target instanceof Element && e.target.tagName === "A") {
+            button.setAttribute("aria-expanded", "false");
+            nav.classList.remove("open");
+            document.body.style.overflow = "";
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && nav.classList.contains("open")) {
+            button.setAttribute("aria-expanded", "false");
+            nav.classList.remove("open");
+            document.body.style.overflow = "";
+          }
+        });
+      }
+    </script>
 
     <main id="content">
       <slot />

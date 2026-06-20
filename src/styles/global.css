@@ -243,10 +243,71 @@ h3 {
 .topnav nav a {
   font-size: 14px;
   color: var(--muted);
+  white-space: nowrap;
 }
 .topnav nav a:hover,
 .topnav nav a.active {
   color: var(--fg);
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 20;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+@media (max-width: 600px) {
+  .hamburger {
+    display: flex;
+  }
+  .topnav-inner {
+    position: relative;
+  }
+  .topnav nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    padding: var(--gap-lg);
+    flex-direction: column;
+    gap: var(--gap-xs);
+    z-index: 15;
+  }
+  .topnav nav.open {
+    display: flex;
+  }
+  .topnav nav a {
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .topnav nav a:last-child {
+    border-bottom: 0;
+  }
 }
 .pagefoot {
   padding-block: var(--gap-xl);
