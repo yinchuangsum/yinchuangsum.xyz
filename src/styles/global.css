@@ -529,6 +529,9 @@ h3 {
 .now-card h3 {
   margin-bottom: var(--gap-xs);
 }
+.now-link:hover {
+  color: var(--accent);
+}
 .now-card p {
   margin: 0;
   color: var(--muted);

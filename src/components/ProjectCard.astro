@@ -1,17 +1,19 @@
 ---
 export interface Props {
   title: string;
+  subtitle?: string;
   description: string;
   badge?: string;
   href?: string;
 }
 
-const { title, description, badge, href } = Astro.props;
+const { title, subtitle, description, badge, href } = Astro.props;
 ---
 
 <div class="project-card">
   {badge && <span class="pill">{badge}</span>}
   <h3>{title}</h3>
+  {subtitle && <p class="project-subtitle">{subtitle}</p>}
   <p>{description}</p>
   {href && <a class="btn btn-ghost btn-arrow" href={href}>Learn more</a>}
 </div>
@@ -35,6 +37,14 @@ const { title, description, badge, href } = Astro.props;
   }
   .project-card h3 {
     font-size: 20px;
+  }
+  .project-subtitle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
   }
   .project-card p {
     color: var(--muted);
