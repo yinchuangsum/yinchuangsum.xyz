@@ -3,7 +3,13 @@ node_modules/
 dist/
 .astro/
 .wrangler/
-.agents/
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/add-blog-post/
+!.agents/skills/add-event/
+!.agents/skills/add-project/
+!.agents/skills/create-astro-component/
 .DS_Store
 *.local
 .env
