@@ -39,8 +39,9 @@ All tokens are defined as CSS custom properties in `src/styles/global.css`.
 | Route | Description | Reference |
 |-------|-------------|-----------|
 | `/` | Now page — focus areas | `reference/home.html` |
-| `/blog` | Blog listing + subscribe | `reference/blog.html` |
+| `/blog` | Blog listing — hero notes all posts hand-written, no AI | `reference/blog.html` |
 | `/blog/[slug]` | Individual blog post | Content collection |
+| `/projects` | Projects — commercial + open source | Custom (no reference) |
 | `/speaking` | Speaking — upcoming + past | `reference/speaking.html` |
 | `/uses` | Tools & setup | `reference/uses.html` |
 
@@ -72,10 +73,20 @@ The `reference/` directory contains exported HTML files from a design handoff (s
 ```
 src/
 ├── components/        # Reusable .astro components
+│   ├── EventCard.astro
+│   ├── Hero.astro
+│   ├── LogRow.astro
+│   ├── ProjectCard.astro
+│   └── SubscribeBlock.astro
 ├── content/blog/      # Blog content collection (markdown)
 ├── layouts/           # Base layout wrappers
 ├── pages/             # Route pages
-│   └── blog/[slug].astro
+│   ├── blog/[slug].astro
+│   ├── blog.astro
+│   ├── index.astro
+│   ├── projects.astro
+│   ├── speaking.astro
+│   └── uses.astro
 └── styles/
     └── global.css     # Design tokens + base styles
 ```
