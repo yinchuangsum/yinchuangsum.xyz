@@ -1,5 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LogRow from "../components/LogRow.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 ---
 
 <BaseLayout title="Blog — Yin Chuang Sum">
@@ -24,18 +32,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="row-between" style="margin-bottom: var(--gap-lg);">
         <h2>Latest articles</h2>
         <div class="tag-cluster" id="blog-tags">
-          <span class="tag" data-tag="ai">AI</span>
-          <span class="tag" data-tag="architecture">Architecture</span>
-          <span class="tag" data-tag="vue">Vue</span>
-          <span class="tag" data-tag="kotlin">Kotlin</span>
-          <span class="tag" data-tag="infra">Infra</span>
+          {allTags.map((tag) => (
+            <span class="tag" data-tag={tag.toLowerCase()}>{tag}</span>
+          ))}
         </div>
       </div>
 
       <div id="blog-posts">
-        <p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">
-          No posts yet.
-        </p>
+        {posts.length > 0 ? (
+          <>
+            {posts.map((post) => (
+              <LogRow
+                date={post.data.date.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                title={post.data.title}
+                description={post.data.description}
+                tags={post.data.tags}
+                readTime={post.data.readTime}
+                href={`/blog/${post.id.replace(/\.(md|mdx)$/, "")}`}
+              />
+            ))}
+            <p class="meta empty-state" style="display: none; text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">
+              No posts match your search.
+            </p>
+          </>
+        ) : (
+          <p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">
+            No posts yet.
+          </p>
+        )}
       </div>
     </div>
   </section>
@@ -55,28 +83,46 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     const searchBtn = document.getElementById("blog-search-btn");
     const tags = document.querySelectorAll("#blog-tags .tag");
     const postsContainer = document.getElementById("blog-posts");
+    const posts = postsContainer?.querySelectorAll(".log-row");
 
-    if (searchInput instanceof HTMLInputElement && postsContainer) {
-      searchInput.addEventListener("input", () => updateResults(searchInput, postsContainer));
-      searchBtn?.addEventListener("click", () => updateResults(searchInput, postsContainer));
+    function filterPosts() {
+      const query = (searchInput instanceof HTMLInputElement ? searchInput.value : "").trim().toLowerCase();
+      const activeTag = document.querySelector("#blog-tags .tag.active");
+      const tag = activeTag?.getAttribute("data-tag")?.toLowerCase() || "";
+
+      let visible = 0;
+      posts?.forEach((post) => {
+        const title = (post.querySelector("h3")?.textContent || "").toLowerCase();
+        const desc = (post.querySelector("p")?.textContent || "").toLowerCase();
+        const postTags = [...post.querySelectorAll(".tag")].map((t) => t.textContent.toLowerCase());
+
+        const matchesQuery = !query || title.includes(query) || desc.includes(query) || postTags.some((t) => t.includes(query));
+        const matchesTag = !tag || postTags.includes(tag);
+
+        if (matchesQuery && matchesTag) {
+          (post as HTMLElement).style.display = "";
+          visible++;
+        } else {
+          (post as HTMLElement).style.display = "none";
+        }
+      });
+
+      const empty = postsContainer?.querySelector(".empty-state");
+      if (empty) {
+        (empty as HTMLElement).style.display = visible === 0 ? "" : "none";
+      }
     }
+
+    searchInput?.addEventListener("input", filterPosts);
+    searchBtn?.addEventListener("click", filterPosts);
 
     tags.forEach((tag) => {
       tag.addEventListener("click", () => {
         const wasActive = tag.classList.contains("active");
         tags.forEach((t) => t.classList.remove("active"));
         if (!wasActive) tag.classList.add("active");
-        if (searchInput instanceof HTMLInputElement && postsContainer) {
-          updateResults(searchInput, postsContainer);
-        }
+        filterPosts();
       });
     });
-
-    function updateResults(input: HTMLInputElement, container: HTMLElement) {
-      const query = input.value.trim().toLowerCase();
-      const activeTag = document.querySelector("#blog-tags .tag.active");
-      const tag = activeTag?.getAttribute("data-tag") || "";
-      container.innerHTML = `<p class="meta" style="text-align: center; padding-block: var(--gap-2xl); font-size: 15px;">` + (query || tag ? "No posts match your search." : "No posts yet.") + `</p>`;
-    }
   </script>
 </BaseLayout>
