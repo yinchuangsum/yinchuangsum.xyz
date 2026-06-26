@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CourseCard from "../components/CourseCard.astro";
+import { getCollection } from "astro:content";
+
+const courses = await getCollection("education");
+const sorted = courses.sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
+);
+const slugs = new Map(
+  sorted.map((c) => [c.id, `/education/${c.id.replace(/\.(md|mdx)$/, "")}`]),
+);
+const hasActive = courses.some((c) => c.data.status === "active");
+const hasUpcoming = courses.some((c) => c.data.status === "upcoming");
+const hasPast = courses.some((c) => c.data.status === "past");
+---
+
+<BaseLayout title="Education — Yin Chuang Sum">
+  <section class="section hero">
+    <div class="container hero-center">
+      <p class="eyebrow">EDUCATION</p>
+      <h1>Sharing what I've learned.</h1>
+      <p class="lead">
+        Structured training and mentorship for engineers and teams who want to
+        build better systems.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="row-between" style="margin-bottom: var(--gap-lg);">
+        <h2>Courses</h2>
+        <div class="tag-cluster" id="course-filters">
+          <span class="tag active" data-filter="all">All</span>
+          {hasActive && <span class="tag" data-filter="active">Active</span>}
+          {hasUpcoming && <span class="tag" data-filter="upcoming">Upcoming</span>}
+          {hasPast && <span class="tag" data-filter="past">Past</span>}
+        </div>
+      </div>
+
+      <div class="grid-2" id="course-grid">
+        {sorted.map((course) => (
+          <CourseCard
+            title={course.data.title}
+            tagline={course.data.tagline}
+            description={course.data.description}
+            outline={course.data.outline}
+            status={course.data.status}
+            cohort={course.data.cohort}
+            href={slugs.get(course.id)}
+          />
+        ))}
+      </div>
+
+      <div style="margin-top: var(--gap-xl); text-align: center;">
+        <a href="/trainer-profile.pdf" class="btn btn-secondary" download>
+          Download trainer profile
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Mentoring</h2>
+      <div class="stack" style="max-width: 60ch; gap: var(--gap-md); margin-top: var(--gap-md);">
+        <p>
+          I work one-on-one with university students and junior developers to
+          ship their final-year projects and personal builds — scoping,
+          architecture, deployment, the full stack.
+        </p>
+        <p>
+          I also help vibe coders take their AI-generated prototypes and turn
+          them into production-grade products. If you built something with an AI
+          assistant that works in a demo but won't scale, I'll show you what
+          needs to change.
+        </p>
+        <p>
+          My approach is grounded in real-world experience. No theory without
+          practice. I adapt to where you are.
+        </p>
+
+        <div
+          class="stack"
+          style="gap: var(--gap-sm); margin-top: var(--gap-lg);"
+        >
+          <button
+            class="btn btn-primary"
+            data-tally-open="rjgKgX"
+            data-tally-layout="modal"
+            data-tally-width="480"
+            data-tally-hide-title="1"
+          >
+            Reach out
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelectorAll("#course-filters .tag");
+  const cards = document.querySelectorAll("#course-grid .course-card");
+
+  if (filters.length && cards.length) {
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filters.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.getAttribute("data-filter");
+        cards.forEach((el) => {
+          const card = el as HTMLElement;
+          if (
+            filter === "all" ||
+            card.getAttribute("data-status") === filter
+          ) {
+            card.style.display = "";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+  }
+</script>
+
+<style></style>

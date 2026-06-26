@@ -1,0 +1,294 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const courses = await getCollection("education");
+  return courses.map((course) => ({
+    params: { slug: course.id.replace(/\.(md|mdx)$/, "") },
+    props: { course },
+  }));
+}
+
+const { course } = Astro.props;
+const { data: c } = course;
+const modPad = (i: number) => String(i + 1).padStart(2, "0");
+---
+
+<BaseLayout
+  title={`${c.title} — Yin Chuang Sum`}
+  description={c.description}
+>
+  <section class="section hero">
+    <div class="container" style="max-width: 720px;">
+      <p class="eyebrow">COURSE</p>
+      <div class="course-meta" style="margin-bottom: var(--gap-md);">
+        <span class="pill" data-status={c.status}>
+          {c.status === "active" ? "Active" : c.status === "upcoming" ? "Upcoming" : "Past"}
+        </span>
+      </div>
+      <h1>{c.title}</h1>
+      <p class="lead" style="margin-top: var(--gap-md);">{c.lead || c.description}</p>
+      {c.price &&
+        <div class="price-block">
+          <span class="price">{c.price}</span>
+          <span class="price-note">
+            per person &middot; {c.duration || "1 day"}
+            {c.format && ` \u00B7 ${c.format}`}
+          </span>
+        </div>
+      }
+      <div class="hero-cta" style="margin-top: var(--gap-lg);">
+        <button
+          class="btn btn-primary"
+          data-tally-open="rjgKgX"
+          data-tally-layout="modal"
+          data-tally-width="480"
+          data-tally-hide-title="1"
+        >
+          Register interest
+        </button>
+        <a href="/education" class="btn btn-secondary">Back to courses</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 720px;">
+      <h2>What you'll build</h2>
+      <p class="lead" style="margin-top: var(--gap-md);">{c.lead || c.description}</p>
+
+      {c.outcomes && c.outcomes.length > 0 &&
+        <>
+          <h3 style="margin-top: var(--gap-xl);">Key outcomes</h3>
+          <ul class="outcome-list">
+            {c.outcomes.map((o) => (
+              <li><strong>{o.label}</strong> — {o.desc}</li>
+            ))}
+          </ul>
+        </>
+      }
+    </div>
+  </section>
+
+  {c.modules && c.modules.length > 0 &&
+    <section class="section">
+      <div class="container" style="max-width: 720px;">
+        <h2>Syllabus</h2>
+        {c.syllabusIntro &&
+          <p class="lead" style="margin-top: var(--gap-md); margin-bottom: var(--gap-lg);">
+            {c.syllabusIntro}
+          </p>
+        }
+        <div class="module-list">
+          {c.modules.map((m, i) => (
+            <div class="module-card">
+              <div class="module-num">{modPad(i)}</div>
+              <div class="module-body">
+                <h3>{m.title}</h3>
+                <p>{m.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  }
+
+  {c.needs && c.needs.length > 0 &&
+    <section class="section">
+      <div class="container" style="max-width: 720px;">
+        {c.prerequisitesLead
+          ? <><h2>Prerequisites</h2><p class="lead" style="margin-top: var(--gap-md);">{c.prerequisitesLead}</p></>
+          : <h2>What you'll need</h2>
+        }
+        <h3 style="margin-top: var(--gap-lg);">What you'll need</h3>
+        <ul class="need-list">
+          {c.needs.map((n) => (
+            <li>{n}</li>
+          ))}
+        </ul>
+        {c.needsNote &&
+          <p style="margin-top: var(--gap-md); color: var(--muted);">{c.needsNote}</p>
+        }
+      </div>
+    </section>
+  }
+
+  {c.audience &&
+    <section class="section">
+      <div class="container" style="max-width: 720px;">
+        <h2>Who this is for</h2>
+        <p class="lead" style="margin-top: var(--gap-md);">{c.audience}</p>
+      </div>
+    </section>
+  }
+
+  {c.price &&
+    <section class="section">
+      <div class="container" style="max-width: 720px;">
+        <h2>Pricing</h2>
+        <div class="price-card">
+          <div class="price-card-header">
+            <span class="price">{c.price}</span>
+            <span class="pill" data-status={c.status}>
+              {c.status === "active" ? "Active" : c.status === "upcoming" ? "Upcoming" : "Past"}
+            </span>
+          </div>
+          {c.pricingNote && <p>{c.pricingNote}</p>}
+          <button
+            class="btn btn-primary"
+            data-tally-open="rjgKgX"
+            data-tally-layout="modal"
+            data-tally-width="480"
+            data-tally-hide-title="1"
+          >
+            Register interest
+          </button>
+        </div>
+      </div>
+    </section>
+  }
+
+  {c.instructor &&
+    <section class="section">
+      <div class="container" style="max-width: 720px;">
+        <h2>About the instructor</h2>
+        <p style="margin-top: var(--gap-md);">{c.instructor}</p>
+      </div>
+    </section>
+  }
+</BaseLayout>
+
+<style>
+  .course-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .price-block {
+    margin-top: var(--gap-lg);
+    padding: var(--gap-md) 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+  }
+  .price {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .price-note {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .outcome-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--gap-lg) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+  .outcome-list li {
+    border-left: 2px solid var(--muted);
+    padding-left: var(--gap-md);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .outcome-list li strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .module-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+  .module-card {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--gap-md);
+    padding: var(--gap-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .module-num {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .module-body h3 {
+    font-size: 17px;
+    margin-bottom: var(--gap-xs);
+  }
+  .module-body p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .need-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--gap-md) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+  .need-list li {
+    font-size: 15px;
+    line-height: 1.55;
+    padding-left: var(--gap-lg);
+    position: relative;
+  }
+  .need-list li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--gap-xl);
+    margin-top: var(--gap-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+  .price-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--gap-sm);
+  }
+  .price-card-header .price {
+    font-size: 48px;
+  }
+  .price-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .price-card .btn {
+    align-self: flex-start;
+  }
+</style>

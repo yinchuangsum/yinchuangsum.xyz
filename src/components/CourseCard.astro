@@ -1,0 +1,106 @@
+---
+export interface Props {
+  title: string;
+  tagline?: string;
+  description: string;
+  outline: string;
+  status: "active" | "upcoming" | "past";
+  cohort: string;
+  href?: string;
+}
+
+const { title, tagline, description, outline, status, cohort, href } =
+  Astro.props;
+const statusLabel = { active: "Active", upcoming: "Upcoming", past: "Past" }[
+  status
+];
+---
+
+<div class="course-card" data-status={status}>
+  <div class="course-meta">
+    <span class="pill" data-status={status}>{statusLabel}</span>
+    {cohort && <span class="cohort">{cohort}</span>}
+  </div>
+  <h3>{title}</h3>
+  {tagline && <p class="course-tagline">{tagline}</p>}
+  <p class="course-desc">{description}</p>
+  <div class="course-outline">
+    <p>{outline}</p>
+  </div>
+  {href && (
+    <a class="btn btn-ghost btn-arrow" href={href}>
+      Learn more
+    </a>
+  )}
+</div>
+
+<style>
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+  .course-card:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .course-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    margin-bottom: var(--gap-xs);
+  }
+  .cohort {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .pill[data-status="past"] {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .pill[data-status="upcoming"] {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .course-card h3 {
+    font-size: 20px;
+  }
+  .course-tagline {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .course-desc {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+  .course-outline {
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: var(--gap-sm) var(--gap-md);
+    margin-top: var(--gap-xs);
+  }
+  .course-outline p {
+    font-size: 14px;
+    color: var(--accent);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .course-card .btn {
+    align-self: flex-start;
+    margin-top: var(--gap-xs);
+  }
+</style>
