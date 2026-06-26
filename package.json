@@ -4,6 +4,7 @@
   "type": "module",
   "version": "0.1.0",
   "description": "Personal website of Yin Chuang Sum",
+  "author": "Yin Chuang Sum <hello@yinchuangsum.xyz>",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

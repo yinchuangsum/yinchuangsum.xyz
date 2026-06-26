@@ -1,12 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import { getCollection } from "astro:content";
-
-const courses = await getCollection("education");
-const sorted = courses.sort(
-  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
-);
 ---
 
 <BaseLayout title="Yin Chuang Sum">
@@ -40,36 +34,6 @@ const sorted = courses.sort(
           as simple as having a conversation.
         </p>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container stack" style="gap: var(--gap-xl);">
-      <div style="max-width: 36ch;">
-        <p class="eyebrow">TEACHING</p>
-        <h2>Upcoming courses.</h2>
-      </div>
-      <div class="course-index">
-        {sorted.map((course, i) => {
-          const slug = course.id.replace(/\.(md|mdx)$/, "");
-          return (
-            <a href={`/education/${slug}`} class="course-index-card">
-              <div class="course-index-num">{String(i + 1).padStart(2, "0")}</div>
-              <div class="course-index-body">
-                <h3>{course.data.title}</h3>
-                <p>{course.data.tagline || course.data.description}</p>
-                <span class="meta">
-                  &rarr; {course.data.price || ""}
-                  {course.data.duration && ` \u00B7 ${course.data.duration}`}
-                </span>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-      <a href="/education" class="btn btn-ghost btn-arrow" style="align-self: flex-start;">
-        View all courses
-      </a>
     </div>
   </section>
 
@@ -118,49 +82,3 @@ const sorted = courses.sort(
   </section>
 </BaseLayout>
 
-<style>
-  .course-index {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
-  }
-  .course-index-card {
-    display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: var(--gap-md);
-    padding: var(--gap-md);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: box-shadow 0.2s ease;
-    text-decoration: none;
-  }
-  .course-index-card:hover {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-  }
-  .course-index-card:hover .course-index-num {
-    text-decoration: none;
-  }
-  .course-index-num {
-    font-family: var(--font-mono);
-    font-size: 16px;
-    color: var(--accent);
-    font-weight: 500;
-    line-height: 1.3;
-  }
-  .course-index-body h3 {
-    font-size: 17px;
-    margin-bottom: 2px;
-  }
-  .course-index-body p {
-    margin: 0 0 var(--gap-xs);
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .course-index-body .meta {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-</style>

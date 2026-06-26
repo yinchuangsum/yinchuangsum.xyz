@@ -23,6 +23,8 @@ export async function GET() {
     <link>https://yinchuangsum.xyz/</link>
     <description>Writing about what I build. Deep dives on AI architecture, backend engineering, Vue ecosystems, and the tools that power modern SaaS.</description>
     <language>en</language>
+    <managingEditor>hello@yinchuangsum.xyz (Yin Chuang Sum)</managingEditor>
+    <webMaster>hello@yinchuangsum.xyz (Yin Chuang Sum)</webMaster>
     <atom:link href="https://yinchuangsum.xyz/rss.xml" rel="self" type="application/rss+xml"/>
     ${items}
   </channel>
