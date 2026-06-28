@@ -142,4 +142,16 @@ src/
 
 - `.agents/skills/astro-framework` — Astro best practices (installed)
 - `.agents/skills/personal-branding-earthy` — Earthy-green design system (installed)
+- `.agents/skills/draft-blog-from-obsidian` — Draft blog posts from Obsidian ideas (installed)
 - `.agents/skills/*` — mattpocock/skills (29 agent skills installed)
+
+## Obsidian
+
+| Key | Path |
+|-----|------|
+| Vault | `/Users/yinchuangsum/obsidian/Knowledge-Base` |
+| Blog ideas directory | `BlogIdeas/` (relative to vault) |
+| Idea tracker file | `BlogIdeas/tracker.md` (relative to vault) |
+
+All Obsidian-related skills and subagents read these paths from here.
+Update only this section if the vault moves.
