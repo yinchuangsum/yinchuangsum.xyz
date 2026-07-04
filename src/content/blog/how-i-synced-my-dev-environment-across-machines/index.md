@@ -6,22 +6,15 @@ tags: ["DevOps", "Tooling"]
 readTime: "4 min"
 ---
 
-I run two Mac Minis and a Raspberry Pi cluster. For months, my configs drifted across them. I'd tweak Neovim on the living room Mac Mini, then wonder why the same keybinding didn't work on the server rack machine. I'd install Lazygit on one but forget to install it on the other.
+My main coding machine is a MacBook Pro 14-inch — it has all my Neovim config, tmux keybindings, lazygit, and opencode setup. The Mac Mini at home currently only runs an opencode agent for my knowledge base. I want to code on it too without pulling out my laptop every time.
 
 I needed a setup where one edit is instantly live everywhere. No custom sync scripts. No paid tools. Just git, symlinks, and a single install command.
 
 GNU stow turned out to be the answer.
 
-## Why stow over alternatives
+## How it works
 
-Stow is ruthlessly simple. You organise configs in a directory tree under `~/dotfiles/packages/`, and stow creates symlinks to their target locations. Your actual configs live in the repo — the symlinks are just pointers.
-
-I evaluated two alternatives:
-
-- **Chezmoi** — powerful, but introduces its own template language and file format. I don't want to learn a DSL to manage my Neovim config.
-- **Yadm** — wraps git with alternative branch support. Neat trick, but adds an extra git wrapper to remember.
-
-Stow does one thing: `stow common` creates a symlink farm from `packages/common/` to `~/`. No config file. No templates. No wrapper. The dotfiles themselves are the source of truth.
+You organise configs in a directory tree under `~/dotfiles/packages/`, and stow creates symlinks to their target locations. Your actual configs live in the repo — the symlinks are just pointers. Run `stow common` and it wires everything in `packages/common/` to `~/`. No config file, no templates, no wrapper.
 
 ## Architecture
 
@@ -37,6 +30,8 @@ The dotfiles root at `~/dotfiles/` has two package directories:
 ```
 
 **`packages/common/`** holds cross-platform configs: Neovim (LazyVim), Tmux with plugins (tpm, catppuccin, battery, cpu, navigator), Ghostty terminal, Vim, and shell configs. These run identically on macOS and Linux.
+
+Except they don't, really. My Mac Mini currently only runs an opencode agent for my knowledge base, so it has agent-specific configs but not the full dev environment. The "common" label is aspirational — these configs are common across machines doing similar work, not universally identical.
 
 **`packages/macos/`** holds macOS-specific configs — currently Karabiner-Elements. On Linux, the install script skips this directory entirely. A future `packages/linux/` might hold input remapping for the Raspberry Pi.
 
@@ -104,11 +99,22 @@ I edit configs directly in `~/dotfiles/packages/`. Stow symlinks mean those edit
 
 There's no sync daemon, no cron job, no cloud service. Git handles history and distribution. Stow handles placement.
 
+It doesn't matter which machine I edit from. I mostly push from the MBP, but the system is agnostic — commit anywhere, pull everywhere. One edit, instantly live on all machines.
+
+The one time it broke: I made a change directly to `~/.tmux.conf` — muscle memory from before stow. Worked fine locally. Then I pulled on the other Mac Mini, ran `stow common`, and stow silently overwrote my edit with the old version from the repo. The change I'd spent 20 minutes on was gone.
+
+The fix was a mental model shift: stow owns those paths now. If I want to edit a config file and have it stick, I edit it in `~/dotfiles/packages/`. Took losing one change to build the reflex.
+
+An unexpected benefit: if my MacBook is stolen or dies, I don't lose my environment. Clone the repo on a replacement machine, run `install.sh`, and I'm back to where I was. No remembering what I had installed. No reconstructing keybindings from memory.
+
 ## What's next
 
-Two open items:
+Three open items:
 
 1. A `packages/linux/` directory for Raspberry Pi-specific configs (input remapping, systemd services).
 2. A `--adopt` flag — stow can adopt existing config files into the repo if they already exist at the target path. I haven't needed it yet, but it would simplify the initial migration for a new machine with existing dotfiles.
+3. **Chezmoi** — stow's simplicity starts to creak when each machine needs custom overrides beyond the two-package split. Chezmoi's template system handles per-machine divergence explicitly. Worth evaluating when the common/macos split stops scaling.
 
-If you're managing multiple machines and haven't tried GNU stow, start with one config — say, your `.tmux.conf`. Put it in `packages/common/`, run `stow common`, and see how it feels. You might find yourself migrating the rest within the hour.
+Stow does almost nothing. No daemon, no DSL, no sync protocol — just symlinks and git. The laziest tool is usually the one that survives the longest.
+
+If you manage multiple machines, start with one config. Put your `.tmux.conf` in `packages/common/`, run `stow common`, and let the simplicity convince you.

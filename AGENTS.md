@@ -67,6 +67,8 @@ Container: `--container` 1120px max-width, `--gutter` 32px padding.
 ### Writing Tone
 Concise, professional, personal. Write for a technical audience. No marketing fluff. Use active voice. Avoid jargon where plain English suffices.
 
+**Karpathy lens active by default.** When writing blog posts, event descriptions, project pages, course content, or any other site content, apply `andrej-karpathy-perspective` (karpathy mode) — engineering realism, Software 2.0 framing, AI skepticism, "build to understand" ethos. Makes content resonate with builders who ship real systems, not hype. Trigger explicitly if not auto-activated.
+
 ### Do
 - Use CSS custom properties for every token
 - Prefer semantic token names over literal values
@@ -119,6 +121,10 @@ Per-content-type writing guides live in `guideline/`:
 
 When creating a new content collection, add a corresponding `guideline/<type>.md` file.
 
+## ImageMagick
+
+Resize images with ImageMagick using `magick input.jpg -resize <width>x <height> output.jpg`. Always preserve aspect ratio by omitting the height dimension: `magick input.jpg -resize 1000x output.jpg` scales width to 1000px and adjusts height proportionally. Do not use the `!` flag (forces exact dimensions, breaks ratio). Verify with `magick identify -format "%f: %wx%h\n" <file>`.
+
 ## Commands
 
 | Command | Action |
@@ -157,6 +163,7 @@ src/
 
 ## Skills
 
+- `.agents/skills/andrej-karpathy-perspective` — Karpathy-style technical depth & AI skepticism for content. Trigger with "karpathy mode"
 - `.agents/skills/astro-framework` — Astro best practices (installed)
 - `.agents/skills/personal-branding-earthy` — Earthy-green design system (installed)
 - `.agents/skills/draft-blog-from-obsidian` — Draft blog posts from Obsidian ideas (installed)

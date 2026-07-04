@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "andrej-karpathy-perspective": {
+      "source": "alchaincyf/karpathy-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "d056dd7eed6f3302fb8f2e42cfd9579d46133e575ca94f475c1b1b5cd0dbc7f9"
+    },
     "astro-framework": {
       "source": "delineas/astro-framework-agents",
       "sourceType": "github",
