@@ -570,43 +570,6 @@ h3 {
   height: 18px;
 }
 
-.event-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  transition: box-shadow 0.2s ease;
-}
-.event-card:hover {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-}
-.event-card .event-date {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: var(--gap-sm);
-}
-.event-card h3 {
-  font-size: 20px;
-  margin-bottom: var(--gap-xs);
-}
-.event-card .event-location {
-  font-size: 14px;
-  color: var(--muted);
-  margin-bottom: var(--gap-md);
-}
-.event-card .event-actions {
-  display: flex;
-  gap: var(--gap-sm);
-  flex-wrap: wrap;
-}
-.event-card .tag {
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
 .uses-section {
   max-width: 56ch;
 }

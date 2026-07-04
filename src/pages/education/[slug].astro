@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 export async function getStaticPaths() {
   const courses = await getCollection("education");
   return courses.map((course) => ({
-    params: { slug: course.id.replace(/\.(md|mdx)$/, "") },
+    params: { slug: course.id.replace(/\/?index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "") },
     props: { course },
   }));
 }

@@ -53,4 +53,39 @@ const education = defineCollection({
   }),
 });
 
-export const collections = { blog, education };
+const speaking = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/speaking" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.date(),
+    location: z.string(),
+    category: z.enum(["upcoming", "past"]),
+    tags: z.array(z.string()).optional().default([]),
+    virtual: z.boolean().optional().default(false),
+    primaryAction: z
+      .object({ label: z.string(), href: z.string() })
+      .optional(),
+    secondaryAction: z
+      .object({
+        label: z.string(),
+        href: z.string(),
+        variant: z.enum(["secondary", "ghost"]).optional().default("ghost"),
+      })
+      .optional(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    description: z.string(),
+    badge: z.string().optional(),
+    href: z.string().optional(),
+    category: z.enum(["commercial", "open-source"]),
+  }),
+});
+
+export const collections = { blog, education, speaking, projects };

@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const events = await getCollection("speaking");
+  return events.map((e) => ({
+    params: { slug: e.id.replace(/\/?index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "") },
+    props: { event: e },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+const eventDate = event.data.date.toLocaleDateString("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={`${event.data.title} — Yin Chuang Sum`}>
+  <section class="section">
+    <div class="container" style="max-width: 720px;">
+      <p class="meta" style="margin-bottom: var(--gap-md);">
+        {eventDate}
+      </p>
+      <h1>{event.data.title}</h1>
+      <p class="event-location" style="margin-top: var(--gap-xs); color: var(--muted); font-size: 15px;">
+        {event.data.location}
+      </p>
+      <p class="lead" style="margin-top: var(--gap-md); margin-bottom: var(--gap-lg);">
+        {event.data.description}
+      </p>
+      <div class="tag-cluster" style="margin-bottom: var(--gap-lg);">
+        {event.data.virtual && <span class="pill">Virtual</span>}
+        {event.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+      {event.data.primaryAction && (
+        <a class="btn btn-primary" href={event.data.primaryAction.href} style="margin-bottom: var(--gap-lg);">
+          {event.data.primaryAction.label}
+        </a>
+      )}
+      <hr class="rule" />
+      <article style="margin-top: var(--gap-xl);">
+        <Content />
+      </article>
+      {event.data.secondaryAction && (
+        <p style="margin-top: var(--gap-lg);">
+          <a class="btn btn-secondary btn-arrow" href={event.data.secondaryAction.href}>
+            {event.data.secondaryAction.label}
+          </a>
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .event-location {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+</style>

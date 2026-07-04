@@ -1,5 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import { getCollection } from "astro:content";
+
+const events = await getCollection("speaking");
+events.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const upcoming = events.filter((e) => e.data.category === "upcoming");
+const past = events.filter((e) => e.data.category === "past");
+
+function mapTags(data: (typeof events)[number]["data"]) {
+  const tags: Array<{ label: string; variant?: "pill" | "tag" }> = [];
+  if (data.virtual) tags.push({ label: "Virtual", variant: "pill" });
+  for (const t of data.tags) tags.push({ label: t });
+  return tags;
+}
+
+function slugify(id: string): string {
+  return id.replace(/\/?index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+}
 ---
 
 <BaseLayout title="Speaking — Yin Chuang Sum">
@@ -14,11 +32,67 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <section class="section">
-    <div class="container" style="text-align: center; padding-block: var(--gap-2xl);">
-      <p class="meta" style="font-size: 15px; color: var(--muted);">
-        No upcoming or past events to show right now.
-      </p>
-    </div>
-  </section>
+  {upcoming.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div style="margin-bottom: var(--gap-xl);">
+          <p class="eyebrow">UPCOMING</p>
+          <h2>Where I'll be next.</h2>
+        </div>
+        <div class="grid-2">
+          {upcoming.map((e) => (
+            <EventCard
+              date={e.data.date.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+              title={e.data.title}
+              location={e.data.location}
+              tags={mapTags(e.data)}
+              href={`/speaking/${slugify(e.id)}`}
+              primaryAction={e.data.primaryAction}
+              secondaryAction={e.data.secondaryAction}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {past.length > 0 || upcoming.length === 0 ? (
+    <section class="section">
+      <div class="container" style="text-align: center; padding-block: var(--gap-2xl);">
+        {past.length > 0 ? (
+          <>
+            <div style="margin-bottom: var(--gap-xl); text-align: left;">
+              <p class="eyebrow">ARCHIVE</p>
+              <h2>Past talks.</h2>
+            </div>
+            <div class="grid-2">
+              {past.map((e) => (
+                <EventCard
+                  date={e.data.date.toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  title={e.data.title}
+                  location={e.data.location}
+                  tags={mapTags(e.data)}
+                  href={`/speaking/${slugify(e.id)}`}
+                  primaryAction={e.data.primaryAction}
+                  secondaryAction={e.data.secondaryAction}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <p class="meta" style="font-size: 15px; color: var(--muted);">
+            No upcoming or past events to show right now.
+          </p>
+        )}
+      </div>
+    </section>
+  ) : null}
 </BaseLayout>

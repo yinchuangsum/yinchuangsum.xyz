@@ -4,37 +4,116 @@ export interface Props {
   title: string;
   location: string;
   tags: Array<{ label: string; variant?: "pill" | "tag" }>;
+  href?: string;
   primaryAction?: { label: string; href: string };
   secondaryAction?: { label: string; href: string; variant?: "secondary" | "ghost" };
 }
 
-const { date, title, location, tags, primaryAction, secondaryAction } = Astro.props;
+const { date, title, location, tags, href, primaryAction, secondaryAction } = Astro.props;
 ---
 
-<div class="event-card">
-  <div class="event-date">{date}</div>
-  <h3>{title}</h3>
-  <p class="event-location">{location}</p>
-  <div class="event-actions">
-    {primaryAction && (
-      <a
-        class={`btn ${secondaryAction ? "btn-primary" : "btn-secondary btn-arrow"}`}
-        href={primaryAction.href}
-      >
-        {primaryAction.label}
-      </a>
-    )}
-    {secondaryAction && (
-      <a class={`btn btn-${secondaryAction.variant || "ghost"}`} href={secondaryAction.href}>
-        {secondaryAction.label}
-      </a>
-    )}
-    {tags.map((tag) =>
-      tag.variant === "pill" ? (
-        <span class="pill">{tag.label}</span>
-      ) : (
-        <span class="tag">{tag.label}</span>
-      )
-    )}
+<div class="event-card" data-href={href || null}>
+  <div class="event-card-header">
+    <time class="event-date">{date}</time>
+    <h3>{title}</h3>
+    <p class="event-location">{location}</p>
   </div>
+  {tags.length > 0 && (
+    <div class="event-tags">
+      {tags.map((tag) =>
+        tag.variant === "pill" ? (
+          <span class="pill">{tag.label}</span>
+        ) : (
+          <span class="tag">{tag.label}</span>
+        )
+      )}
+    </div>
+  )}
+  {(primaryAction || secondaryAction) && (
+    <div class="event-actions">
+      {primaryAction && (
+        <a
+          class={`btn ${secondaryAction ? "btn-primary" : "btn-secondary btn-arrow"}`}
+          href={primaryAction.href}
+        >
+          {primaryAction.label}
+        </a>
+      )}
+      {secondaryAction && (
+        <a class={`btn btn-${secondaryAction.variant || "ghost"}`} href={secondaryAction.href}>
+          {secondaryAction.label}
+        </a>
+      )}
+    </div>
+  )}
 </div>
+
+<style>
+  .event-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    transition: box-shadow 0.2s ease;
+  }
+  .event-card[data-href] {
+    cursor: pointer;
+  }
+  .event-card:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .event-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+  }
+  .event-date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .event-card h3 {
+    font-size: 20px;
+  }
+  .event-location {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
+  }
+  .event-actions {
+    display: flex;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .event-card :global(.tag) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+</style>
+
+<script>
+  document.addEventListener("click", (e) => {
+    const card = e.target.closest("[data-href]");
+    if (!card || e.target.closest("a, button")) return;
+    location.href = card.getAttribute("data-href") || "";
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const card = e.target.closest("[data-href]");
+    if (!card) return;
+    e.preventDefault();
+    location.href = card.getAttribute("data-href") || "";
+  });
+</script>

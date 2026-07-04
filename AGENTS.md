@@ -10,7 +10,7 @@ Personal website of **Yin Chuang Sum** — a static CTO/personal site built with
 | Deployment | Cloudflare Pages (static, `@astrojs/cloudflare` adapter) |
 | Language | TypeScript |
 | Styling | CSS custom properties, scoped `<style>` tags |
-| Content | Astro content collections (blog) |
+| Content | Astro content collections (blog, education, speaking, projects) |
 
 ## Design system
 
@@ -106,6 +106,19 @@ Concise, professional, personal. Write for a technical audience. No marketing fl
 | `/speaking` | Speaking — upcoming + past | `reference/speaking.html` |
 | `/uses` | Tools & setup | `reference/uses.html`
 
+## Content guidelines
+
+Per-content-type writing guides live in `guideline/`:
+
+| File | Content type |
+|------|-------------|
+| `guideline/blog.md` | Blog posts |
+| `guideline/course.md` | Education / courses |
+| `guideline/event.md` | Speaking events |
+| `guideline/project.md` | Projects |
+
+When creating a new content collection, add a corresponding `guideline/<type>.md` file.
+
 ## Commands
 
 | Command | Action |
@@ -125,7 +138,11 @@ src/
 │   ├── LogRow.astro
 │   ├── ProjectCard.astro
 │   └── SubscribeBlock.astro
-├── content/blog/      # Blog content collection (markdown)
+├── content/
+│   ├── blog/          # Blog content collection (markdown)
+│   ├── education/     # Course content collection
+│   ├── projects/      # Project content collection
+│   └── speaking/      # Speaking event content collection
 ├── layouts/           # Base layout wrappers
 ├── pages/             # Route pages
 │   ├── blog/[slug].astro

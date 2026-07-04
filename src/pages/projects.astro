@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+const commercial = projects.filter((p) => p.data.category === "commercial");
+const openSource = projects.filter((p) => p.data.category === "open-source");
 ---
 
 <BaseLayout title="Projects — Yin Chuang Sum">
@@ -21,19 +26,15 @@ import ProjectCard from "../components/ProjectCard.astro";
         <h2>Closed source.</h2>
       </div>
       <div class="grid-2">
-        <ProjectCard
-          title="Pigeonbook"
-          subtitle="AI Accountant for Small Businesses"
-          description="AI-powered accounting — making bookkeeping as simple as having a conversation."
-          badge="Commercial"
-          href="https://www.pigeonbook.co/"
-        />
-        <ProjectCard
-          title="EV Charging Platform"
-          subtitle="OCPP & OCPI-Compliant Charger Management"
-          description="Pre-auth payment integration and real-time monitoring for building owners to monetize their EV charging infrastructure."
-          badge="NDA"
-        />
+        {commercial.map((p) => (
+          <ProjectCard
+            title={p.data.title}
+            subtitle={p.data.subtitle}
+            description={p.data.description}
+            badge={p.data.badge}
+            href={p.data.href}
+          />
+        ))}
       </div>
     </div>
   </section>
@@ -45,19 +46,15 @@ import ProjectCard from "../components/ProjectCard.astro";
         <h2>Built in public.</h2>
       </div>
       <div class="grid-2">
-        <ProjectCard
-          title="Lazyman TUI"
-          subtitle="Local-First Terminal HTTP Client"
-          description="A terminal UI for HTTP requests, inspired by lazygit. Local-first and keyboard-driven — requests stored as plain `.http` files in git."
-          badge="Open Source"
-          href="https://github.com/yinchuangsum/lazyman"
-        />
-        <ProjectCard
-          title="3D Tour Style Catalogue"
-          subtitle="Immersive WebGL Product Viewer"
-          description="An interactive 3D catalogue for virtual tours and product browsing, built for real-time style exploration."
-          badge="Open Source"
-        />
+        {openSource.map((p) => (
+          <ProjectCard
+            title={p.data.title}
+            subtitle={p.data.subtitle}
+            description={p.data.description}
+            badge={p.data.badge}
+            href={p.data.href}
+          />
+        ))}
       </div>
     </div>
   </section>
