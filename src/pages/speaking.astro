@@ -16,7 +16,7 @@ function mapTags(data: (typeof events)[number]["data"]) {
 }
 
 function slugify(id: string): string {
-  return id.replace(/\/?index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+  return id.replace(/\.(md|mdx)$/, "");
 }
 ---
 

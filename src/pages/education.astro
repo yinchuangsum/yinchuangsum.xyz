@@ -8,7 +8,7 @@ const sorted = courses.sort(
   (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
 );
 const slugs = new Map(
-  sorted.map((c) => [c.id, `/education/${c.id.replace(/\/?index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "")}`]),
+  sorted.map((c) => [c.id, `/education/${c.id.replace(/\.(md|mdx)$/, "")}`]),
 );
 const hasActive = courses.some((c) => c.data.status === "active");
 const hasUpcoming = courses.some((c) => c.data.status === "upcoming");
