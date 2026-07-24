@@ -48,13 +48,17 @@ secondaryAction:
 
 ## Body
 
-Body content is optional. If provided, it renders on the event detail page (`/speaking/<id>`). Keep it concise — 2–3 paragraphs, describing the talk content or takeaways.
+Body content is optional. If provided, it renders on the event detail page (`/speaking/<id>`). Keep it concise — 2-3 paragraphs, describing the talk content or takeaways.
 
-## Tag mapping to EventCard
+## Prop mapping to EventCard
 
-The `tags` array renders as `.tag` elements. If `virtual: true`, a "Virtual" `.pill` is prepended automatically.
+| Collection field | EventCard.astro prop | Notes |
+|---|---|---|
+| `tags` | `tags: [{ label: t } for each]` | If `virtual: true`, prepend `{ label: "Virtual", variant: "pill" }` |
+| `primaryAction` | `primaryAction: { label, href }` | Passed directly as-is |
+| `secondaryAction` | `secondaryAction: { label, href, variant }` | `variant` defaults to `"ghost"` if not set |
 
-Speaking page at `src/pages/speaking.astro` handles this mapping.
+The speaking page at `src/pages/speaking.astro` handles this mapping.
 
 ## Category workflow
 

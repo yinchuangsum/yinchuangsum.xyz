@@ -70,7 +70,9 @@ This keeps images attached to the post. Avoid `public/` for blog images.
 
 ## Draft workflow
 
-Set `draft: true` in frontmatter to hide from the blog listing and slug page. Remove the field or set `draft: false` to publish.
+This project uses a **branch-based** publishing workflow — content is drafted on the `staging` branch and selectively promoted to `main`. See the _Branching & publishing_ section in `AGENTS.md` for the full workflow.
+
+The `draft` frontmatter field still exists for edge cases (e.g. hiding a post already on `main`), but the primary gate is branch isolation — content on `staging` is written publish-ready.
 
 ## Preview & validate
 

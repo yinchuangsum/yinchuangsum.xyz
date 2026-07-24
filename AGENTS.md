@@ -67,7 +67,7 @@ Container: `--container` 1120px max-width, `--gutter` 32px padding.
 ### Writing Tone
 Concise, professional, personal. Write for a technical audience. No marketing fluff. Use active voice. Avoid jargon where plain English suffices.
 
-**Karpathy lens active by default.** When writing blog posts, event descriptions, project pages, course content, or any other site content, apply `andrej-karpathy-perspective` (karpathy mode) — engineering realism, Software 2.0 framing, AI skepticism, "build to understand" ethos. Makes content resonate with builders who ship real systems, not hype. Trigger explicitly if not auto-activated.
+**Karpathy lens active by default.** When writing blog posts, event descriptions, project pages, course content, or any other site content, apply a karpathy mode — engineering realism, Software 2.0 framing, AI skepticism, "build to understand" ethos. Makes content resonate with builders who ship real systems, not hype.
 
 ### Do
 - Use CSS custom properties for every token
@@ -163,11 +163,31 @@ src/
 
 ## Skills
 
-- `.agents/skills/andrej-karpathy-perspective` — Karpathy-style technical depth & AI skepticism for content. Trigger with "karpathy mode"
-- `.agents/skills/astro-framework` — Astro best practices (installed)
-- `.agents/skills/personal-branding-earthy` — Earthy-green design system (installed)
-- `.agents/skills/draft-blog-from-obsidian` — Draft blog posts from Obsidian ideas (installed)
-- `.agents/skills/*` — mattpocock/skills (29 agent skills installed)
+| Skill | Role |
+|-------|------|
+| `.agents/skills/draft-on-staging` | Draft any content on the `staging` branch — read `guideline/<type>.md` for conventions |
+| `.agents/skills/publish-to-main` | Selectively promote content from `staging` to `main` for production deploy |
+| `.agents/skills/create-astro-component` | Scaffold new `.astro` components |
+
+Content conventions live in `guideline/` — each content type has its own file.
+
+## Branching & publishing
+
+The site deploys via **Cloudflare Pages** — pushing to `main` triggers an automatic production build and deploy. All content is drafted on the `staging` branch, which gets its own Cloudflare preview URL.
+
+| Branch | Purpose | Deploys to |
+|--------|---------|------------|
+| `main` | Production — live site | yinchuangsum.xyz |
+| `staging` | Drafting, preview, review | Cloudflare preview URL |
+
+### Lifecycle
+
+1. **Draft** → switch to `staging`, sync with main, write content per `guideline/<type>.md`, validate with `npx astro check`, commit `draft: <slug>`, push `staging`
+2. **Review** → preview via Cloudflare preview URL, iterate if needed
+3. **Publish** → on `main`, cherry-pick specific content from staging via file-level checkout (`git checkout staging -- src/content/<type>/<slug>`), validate + build, commit `publish: <slug>`, push `main` → live
+4. **Sync** → merge `main` back into `staging` after each publish
+
+Use `.agents/skills/draft-on-staging` and `.agents/skills/publish-to-main` for automated workflows.
 
 ## Obsidian
 

@@ -6,10 +6,7 @@ dist/
 .agents/*
 !.agents/skills/
 .agents/skills/*
-!.agents/skills/add-blog-post/
-!.agents/skills/add-event/
-!.agents/skills/add-project/
-!.agents/skills/create-astro-component/
+!.agents/skills/*/
 .DS_Store
 *.local
 .env

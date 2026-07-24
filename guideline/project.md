@@ -41,6 +41,12 @@ category: "open-source"
 
 Body content is optional. Currently unused — the `/projects` page displays card data only. Body can be added later if a detail page is introduced.
 
+## Card prop mapping
+
+`ProjectCard` props map 1:1 to frontmatter schema fields: `title`, `subtitle`, `description`, `badge`, `href`.
+
+The `/projects` page passes each collection entry directly to a `ProjectCard` component.
+
 ## Category ordering on page
 
 | Category | Section |
