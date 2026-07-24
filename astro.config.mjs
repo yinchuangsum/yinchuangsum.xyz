@@ -5,4 +5,8 @@ export default defineConfig({
   output: "static",
   adapter: cloudflare({ prerenderEnvironment: "node" }),
   site: "https://yinchuangsum.xyz",
+  server: {
+    host: true,
+    allowedHosts: true,
+  },
 });
