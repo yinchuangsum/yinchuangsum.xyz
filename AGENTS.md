@@ -193,7 +193,7 @@ Use `.agents/skills/draft-on-staging` and `.agents/skills/publish-to-main` for a
 
 | Key | Path |
 |-----|------|
-| Vault | `/Users/yinchuangsum/obsidian/Knowledge-Base` |
+| Vault | `/Users/sumyinchuang/Documents/yinchuang-knowledge-base` |
 | Blog ideas directory | `BlogIdeas/` (relative to vault) |
 | Idea tracker file | `BlogIdeas/tracker.md` (relative to vault) |
 
