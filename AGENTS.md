@@ -129,7 +129,7 @@ Resize images with ImageMagick using `magick input.jpg -resize <width>x <height>
 
 | Command | Action |
 |---------|--------|
-| `npm run dev` | Start dev server |
+| `npm run dev` | Start dev server (runs detached in tmux session `ycs-dev`, bound to `0.0.0.0:4321`) |
 | `npm run build` | Build to `dist/` |
 | `npm run preview` | Preview production build |
 | `npx astro check` | Type-check |
@@ -165,9 +165,14 @@ src/
 
 | Skill | Role |
 |-------|------|
-| `.agents/skills/draft-on-staging` | Draft any content on the `staging` branch — read `guideline/<type>.md` for conventions |
-| `.agents/skills/publish-to-main` | Selectively promote content from `staging` to `main` for production deploy |
-| `.agents/skills/create-astro-component` | Scaffold new `.astro` components |
+| `ycs-draft-on-staging` | Draft any content on the `staging` branch — read `guideline/<type>.md` for conventions |
+| `ycs-publish-to-main` | Selectively promote content from `staging` to `main` for production deploy |
+| `ycs-create-astro-component` | Scaffold new `.astro` components |
+| `ycs-dev-server` | Start or ensure the local dev server (tmux session `ycs-dev`, `0.0.0.0:4321`) |
+| `ycs-restart-dev-server` | Restart the local dev server after content changes |
+
+These skills live globally at `~/.config/opencode/skills/` and are available from any
+working directory.
 
 Content conventions live in `guideline/` — each content type has its own file.
 
@@ -187,7 +192,7 @@ The site deploys via **Cloudflare Pages** — pushing to `main` triggers an auto
 3. **Publish** → on `main`, cherry-pick specific content from staging via file-level checkout (`git checkout staging -- src/content/<type>/<slug>`), validate + build, commit `publish: <slug>`, push `main` → live
 4. **Sync** → merge `main` back into `staging` after each publish
 
-Use `.agents/skills/draft-on-staging` and `.agents/skills/publish-to-main` for automated workflows.
+Use `ycs-draft-on-staging` and `ycs-publish-to-main` for automated workflows.
 
 ## Obsidian
 
