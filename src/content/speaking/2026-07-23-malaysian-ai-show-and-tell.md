@@ -23,8 +23,6 @@ Rather than demoing a single product, I walked through the workflow behind my bl
 *Malaysian Pay Gap giving a sneak peek of their upcoming feature*
 One demo that really caught my attention was from **Malaysian Pay Gap**. They gave us a preview of an upcoming feature that looked incredibly promising. I won't spoil anything here, but it's something worth keeping an eye on when they officially announce it.
 
-It was also nice to see **Jon Lai** at the event. We've interacted online before, so it was great to finally meet in person and have a quick chat.
-
 The conversations after the talks also sparked a new marketing idea for **PigeonBook**. It's still in the experiment phase, so I'll keep it under wraps for now—but if it works, I'll definitely share the process in a future post.
 
 These community events continue to be one of my favourite ways to learn. Everyone is open to sharing what they're building, what's working, and just as importantly, what isn't.
