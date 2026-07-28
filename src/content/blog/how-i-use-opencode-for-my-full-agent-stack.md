@@ -1,119 +1,238 @@
 ---
 title: "How I Use OpenCode for My Full Agent Stack"
-description: "Stitching OpenCode, Open Design, MCP skills, and a Robin agent into a multi-agent personal infrastructure on a $20/mo runtime — with real cost arithmetic and sharp edges."
+description: "Cost-effective intelligence without breaking the wallet."
 date: 2026-07-24
-tags: ["OpenCode", "Agent Stack", "MCP", "AI Workflows"]
+tags: ["OpenCode", "Agent Stack", "AI Workflows"]
 readTime: "6 min"
 ---
 
-I run a personal knowledge base in Obsidian, I code, I read constantly, and for the last six months I've been running a multi-agent system on **two OpenCode Go plans ($20/mo total)** that replaced about $45–50/mo in SaaS subscriptions.
+I run a personal knowledge base in Obsidian. I write code, read constantly, and for the past three months I've been running my entire AI workflow on **two OpenCode Go plans (US$20/month total)**.
 
-This isn't a hype piece. It's the architecture, the cost arithmetic, and the sharp edges I haven't smoothed out yet.
+This isn't a hype piece or a "look at my AI setup" post.
 
-## The Problem: Context Doesn't Share
+It's the architecture I've settled on, the workflows that make smaller models surprisingly capable, and the sharp edges I still haven't smoothed out.
 
-Before this stack, my workflow was a patchwork of point solutions:
+## The Problem: Manually Maintaining a Knowledge Base
 
-- **Obsidian** for notes — daily logs, knowledge base, project scratchpads
-- **Todoist** for tasks
-- **Readwise** for highlights and reading digestion
-- **Cron scripts** for automation (news scraping, backups)
-- **Cursor** for coding
+I've been a huge fan of **Obsidian** for years.
 
-None of these tools shared context. My daily notes had no awareness of what I'd bookmarked. My TODOs had no connection to my learning log. My code had no link back to requirements. Every tool was a silo, and **I was the manual integration layer** — copying, pasting, and context-switching between six different UIs.
+The problem wasn't taking notes—it was maintaining them.
 
-The core insight: I didn't need better tools. I needed a **single runtime** where agents share state and context, and I just tell one what to do.
+I easily spent one or two hours every day reorganising folders, linking notes, cleaning up tags, and trying to keep everything structured. Despite all that effort, I still struggled to maintain a system that stayed organised.
 
-## The Three-Layer Stack
+As my vault grew larger, another problem appeared.
 
-### Layer 1: OpenCode Go — The Agent Runtime
+I simply couldn't revisit everything I'd written. Valuable ideas were buried under thousands of notes, and manually extracting useful insights became almost impossible.
 
-Two plans at $10/mo each. This is the orchestration layer. Every agent I've built — Robin, Brewie, code reviewers, blog writers — runs inside OpenCode. It handles session management, file access, tool execution, and the MCP protocol that lets agents call external services.
+Eventually, I realised I didn't need another note-taking application.
 
-The key property is **skill composability**. Instead of one monolithic agent trying to do everything, I have small, purpose-built agents that share the same runtime context. Adding a new capability means writing a new skill, not refactoring an existing agent.
+I needed agents.
 
-### Layer 2: Open Design — Architecture and Design Generation
+## The Two OpenCode Plans
 
-Self-hosted on **Mac Mini 1** at `mini-1:3000`. This is where architecture happens before any non-trivial code gets written. The flow:
+### Plan 1: The Coding Agent
 
-1. I describe the feature in plain language
-2. Open Design generates multiple interface designs
-3. It grills me on edge cases I hadn't considered
-4. I pick a design, it generates the spec, and OpenCode implements from it
+Many developers assume you need the smartest—and most expensive—model for coding.
 
-This "design-then-build" separation has been the single biggest quality multiplier in my workflow.
+My experience has been the opposite.
 
-### Layer 3: MCP Skills
+DeepSeek handles the majority of my implementation work just fine. I use stronger models for planning and architecture, then let cheaper models do the actual implementation. With a good workflow, it comfortably codes for more than eight hours a day without any additional API costs.
 
-These are the composable agent capabilities I've built:
+The real secret isn't the model.
 
-- **Brewie** — Requirement elicitation. Runs an interactive interview before any coding session to surface constraints, states, edge cases, and design decisions. Has saved me from building the wrong thing more times than I can count.
-- **daily-news** — Fetches the top 10 AI/programming news articles from high-signal sources (HN, arXiv, Hugging Face, Dev.to, OpenAI, MarkTechPost) and writes structured daily digests.
-- **daydream** — Mines my vault for non-obvious connections between notes. Samples random note pairs, synthesizes insights, and writes permanent knowledge notes.
-- **blog-brainstorm / writing-\*** — A content pipeline that scans daily notes for blog-worthy material, generates ideas, tracks decisions, and shapes raw material into first drafts.
+It's the workflow.
 
-## The Robin Agent: My Knowledge Base Manager
+The biggest improvement came from Matt Pocock's excellent Skills repository:
 
-Robin is the most impactful agent I've built. It runs daily and owns the entire knowledge management cycle:
+https://github.com/mattpocock/skills
 
-1. **Reads daily news** via `daily-news` — curates top articles into a structured markdown note in the vault
-2. **Reconciles my TODO** — reads today's daily note, cross-references with TODO.md, updates task status
-3. **Runs daydream insights** — finds connections between notes I would never notice manually
-4. **Logs work history** — if I shipped something, Robin records it
+Instead of asking:
 
-Robin replaced three paid services I was running: Readwise ($8/mo), a task management tool ($5/mo), and an automation service ($12/mo). It does all of it more effectively because every output lands in the same Obsidian vault. No context silos. No copy-paste.
+```text
+Help me implement feature X
+```
 
-## Coding Workflow: Grill → Design → Build → Review
+the workflow turns that into a structured development process.
 
-This is the loop I use for every non-trivial feature:
+Everything starts with `grill-me` (or `grill-with-docs`).
 
-1. **Brewie grills me** — Constraints, states, edge cases. Brewie surfaces requirements I would have missed.
-2. **Open Design generates architecture** — Interface designs, module boundaries, full spec at `mini-1:3000`.
-3. **OpenCode implements** — Small, safe increments driven by the spec.
-4. **Code review skill** — Reviews changes against the spec and the repo's coding standards in parallel sub-agents.
+Rather than jumping straight into code, the AI asks multiple rounds of qlluestions until every implementation detail has been clarified. Most hallucinations happen because requirements are ambiguous, so forcing the planning phase dramatically improves the final result.
 
-I used this loop end-to-end for **MachineIQ**, the capstone project at the Gamuda AI Academy. 99% AI-coded, from architecture review through implementation. The critical discipline was never skipping steps 1 and 2. Every time I shortcut Brewie and jumped straight to code, I ended up rewriting.
+Once the requirements are clear, `to-spec` converts the discussion into a proper technical specification.
 
-## Cost Arithmetic
+If the project is large, `to-tickets` breaks the work into smaller dependency-aware tasks. Smaller features can skip this step entirely.
 
-Here's the real pricing breakdown:
+The most interesting part is `implement`.
 
-| Item | Cost |
-|---|---|
-| OpenCode Go × 2 plans | $20/mo |
-| Chinese models (DeepSeek, Kimi) for heavy coding | ~$10–15/mo |
-| Claude/GPT for multi-modal, complex reasoning | ~$10–13/mo |
-| **Total** | **~$40–48/mo** |
+Instead of writing code immediately, it follows a strict Test-Driven Development (TDD) workflow.
 
-The lever is **token routing**. Heavy coding — refactoring, boilerplate, test generation — goes to DeepSeek or Kimi. They're shockingly good for a fraction of the cost. Claude and GPT only get called for tasks they're uniquely suited to: multi-modal reasoning (screenshots, diagrams), complex reasoning chains, and the Brewie interview loop where conversation quality matters.
+First, the agent writes failing tests.
 
-This routing cuts API spend by about 40–50% compared to running everything on frontier models.
+Only after the tests exist does it start implementing the feature.
 
-**What it replaced:** Readwise ($8), Todoist ($5), Zapier ($20), plus a handful of smaller subscriptions — roughly $45–50/mo total. The agent stack costs about the same, but it does more, and the outputs aren't siloed across six different databases.
+This gives the agent a concrete goal from the beginning, instead of writing tests afterwards that simply validate whatever code it already produced.
+
+Finally, a dedicated `code-review` step checks architecture, coding standards, and overall code quality before anything gets committed.
+
+I've found this workflow significantly reduces hallucinations. With a solid process, even relatively inexpensive models become surprisingly capable.
+
+### Plan 2: Remote Agent Runtime & Open Design
+
+Writing code is only part of my job.
+
+As a founder, I also need to:
+
+* keep up with industry news
+* maintain my knowledge base
+* capture ideas
+* build my personal brand
+* manage ongoing projects
+
+These tasks were always easy to postpone because they never felt urgent.
+
+I initially experimented with projects like OpenClaw and Hermes. They were both impressive, but I found myself managing multiple applications with a fairly steep learning curve.
+
+Eventually I realised I could build almost everything inside OpenCode instead.
+
+All I really needed was:
+
+* Telegram integration
+* a simple cron-based scheduler
+
+For Telegram, I'm using:
+
+https://github.com/grinev/opencode-telegram-bot
+
+Now I have an agent called **Robin**—named after Nico Robin from **One Piece** —that quietly maintains my personal knowledge system.
+
+Robin currently handles:
+
+* extracting daily news to read
+* recording daily logs
+* maintaining my TODO list
+* generating content ideas
+
+The more interesting part isn't automation.
+
+It's knowledge consolidation.
+
+Current workflows include:
+
+* Daydream
+* Memory System
+* Growth System
+
+I'm even planning to let Robin maintain parts of my personal website and prepare the first draft of future blog posts.
+
+None of these workflows require an extremely intelligent model controlling every step.
+
+What they require is **good skills**.
+
+I think of skills as Standard Operating Procedures (SOPs) for AI agents.
+
+For example, my Daydream skill explicitly tells the agent where daily logs are stored, which folders to read, and how to consolidate only that information.
+
+By reducing the search space, hallucinations become far less common.
+
+In my experience, good workflows improve reliability much more than simply switching to a larger model.
+
+#### Open Design
+
+I've also been using Open Design for architecture discussions and UI prototyping.
+
+For text-based reasoning, it performs surprisingly well, even with DeepSeek.
+
+Its biggest weakness is multimodal reasoning.
+
+Once screenshots, wireframes, or diagrams are involved, the quality drops noticeably.
+
+My workaround is simple.
+
+I first describe the visuals in text.
+
+If I need stronger image understanding, I temporarily switch to models like Qwen or Kimi before returning to OpenCode.
+
+It's not seamless, but it works well enough.
 
 ## Sharp Edges
 
-I'm not going to pretend this is production-grade. Here's what still breaks:
+I'm not going to pretend this setup is production-ready.
 
-**Fragile scheduled jobs.** The OpenCode scheduler uses launchd under the hood, which means macOS timers. They work until they don't — a Mac sleep cycle, a VPN reconnect, a process crash on Mini 1. My daily-news job fails silently about once a week. I need a health-check layer I haven't built yet.
+There are still plenty of rough edges.
 
-**Unpredictable token costs.** Long-running agent sessions burn through tokens faster than expected. A deep daydream run that samples 30+ note pairs can cost $3–4 in a single shot. No monthly cap means the bill is inherently variable.
+### Fragile Scheduled Jobs
 
-**Open Design's weak multi-modal.** It can reason about architecture beautifully, but show it a screenshot or a diagram and it struggles. For a tool that sits at the design–code boundary, this is a real gap. I work around it by writing short text descriptions of visuals, but it breaks the flow.
+The OpenCode scheduler uses `launchd` underneath, which means it depends on macOS timers.
 
-**Knowledge base drift.** Over months, the vault grows large enough that the daydream skill finds fewer novel connections — the signal-to-noise ratio drifts. I've started tagging notes with a "freshness" score and biasing sampling toward less-recently-visited material, but it's a constant tuning problem with no automatic fix.
+Most of the time it works perfectly.
+
+Until it doesn't.
+
+A sleeping Mac, VPN reconnect, or crashed process can silently stop scheduled jobs.
+
+My daily news pipeline fails roughly once a week.
+
+Eventually I'll build proper health checks and monitoring, but that isn't done yet.
+
+### Weak Multimodal Support
+
+Open Design reasons beautifully with text.
+
+Images are another story.
+
+Whenever screenshots or diagrams become important, I still need to switch models.
+
+Hopefully that improves over time.
 
 ## Closing: One Runtime > Best-of-Breed
 
-The fundamental shift in my workflow is replacing **"which tool do I open?"** with **"which agent do I invoke?"**
+The biggest shift wasn't using better AI.
 
-- Need a weekly newsletter draft? Invoke the writing pipeline.
-- Need a reading digest? Robin runs it.
-- Need to code something? Brewie → Open Design → OpenCode implement.
-- Need to connect two ideas from different weeks? Daydream.
+It was changing how I think about software.
 
-The runtime means all these agents share context. The knowledge base is the single source of truth. There's no copy-paste between apps, no context lost in a silo, no manual integration layer that is me.
+Instead of asking:
 
-Is it polished enough for someone who doesn't want to tinker? Not yet. The scheduled jobs are brittle, the cost is variable, and the initial setup requires an evening of configuring MCP endpoints. But if you're a developer or indie hacker who wants to own infrastructure instead of renting integrations, the tradeoff is worth evaluating.
+> Which application should I open?
 
-**One runtime, many agents, no context loss.**
+I now ask:
+
+> Which agent should I invoke?
+
+Need a weekly newsletter draft?
+
+Invoke the writing pipeline.
+
+Need a reading digest?
+
+Robin handles it.
+
+Need to build a feature?
+
+Planning → Specification → Implementation.
+
+Need to connect ideas written weeks apart?
+
+Run Daydream.
+
+Every agent shares the same knowledge base.
+
+There's no copy-pasting between applications.
+
+No context trapped inside isolated tools.
+
+No manual integration layer.
+
+The agents become the integration layer.
+
+Is this polished enough for someone who doesn't enjoy tinkering?
+
+Probably not.
+
+The setup still requires an evening of configuration, and some workflows remain fragile.
+
+But if you're a developer or indie hacker who prefers owning your infrastructure instead of renting SaaS integrations, I think it's a trade-off worth exploring.
+
+**Cost-effective intelligence doesn't come from using the most expensive model. It comes from building better workflows.**
+
+```
+
